@@ -26,6 +26,7 @@ function GetAllCommentsFromUserId($userId)
   );
   return $response->fetchAll();
 }
+
 function GetAllCommentsFromPostId($postId)
 {
   global $PDO;
