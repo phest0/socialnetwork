@@ -32,7 +32,7 @@ function SearchInPosts($search)
   $response = $PDO->query(
     "SELECT post.*, user.nickname "
       . "FROM post LEFT JOIN user on (post.user_id = user.id) "
-      . "WHERE content like '%$search%' "
+      . "WHERE content like '%$search%' or user.nickname like '%$search%'"
       . "ORDER BY post.created_at DESC"
   );
   return $response->fetchAll();
