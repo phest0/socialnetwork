@@ -4,8 +4,13 @@ include_once "PDO.php";
 function GetOneUserFromId($id)
 {
   global $PDO;
-  $response = $PDO->query("SELECT * FROM user WHERE id = $id");
-  return $response->fetch();
+  $preparedRequest = $PDO->prepare("SELECT * FROM user WHERE id = :id");
+  $preparedRequest->execute(
+    array(
+      "id" => $id
+    )
+  );
+  return $preparedRequest->fetch();
 }
 
 function GetAllUsers()
@@ -14,6 +19,7 @@ function GetAllUsers()
   $response = $PDO->query("SELECT * FROM user ORDER BY nickname ASC");
   return $response->fetchAll();
 }
+
 function GetUserIdFromUserAndPassword($username, $password)
 {
   global $PDO;
