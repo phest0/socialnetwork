@@ -6,12 +6,10 @@ switch ($action) {
 
   case 'register':
     include "../models/UserManager.php";
-    if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['passwordRetype'])) {
+    if (isset($_POST['username']) && isset($_POST['password'])) {
       $errorMsg = NULL;
       if (!IsNicknameFree($_POST['username'])) {
         $errorMsg = "Nickname already used.";
-      } else if ($_POST['password'] != $_POST['passwordRetype']) {
-        $errorMsg = "Passwords are not the same.";
       } else if (strlen(trim($_POST['password'])) < 8) {
         $errorMsg = "Your password should have at least 8 characters.";
       } else if (strlen(trim($_POST['username'])) < 4) {
@@ -61,7 +59,11 @@ switch ($action) {
     break;
 
   case 'newComment':
-    // code...
+    include "../models/CommentManager.php";
+    if (isset($_SESSION['userId']) && isset($_POST['postId']) && isset($_POST['comment'])) {
+      CreateNewComment($_SESSION['userId'], $_POST['postId'], $_POST['comment']);
+    }
+    header('Location: ?action=display');
     break;
 
   case 'display':
